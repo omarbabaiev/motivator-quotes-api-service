@@ -193,6 +193,7 @@ void main() async {
       .addMiddleware(logRequests())
       .addHandler(router);
 
-  final server = await io.serve(handler, 'localhost', 8080);
+  var port = int.parse(Platform.environment['PORT'] ?? '8080');
+  final server = await io.serve(handler, '0.0.0.0', port);
   print('Server listening on port ${server.port}');
 }
