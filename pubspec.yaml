@@ -46,7 +46,7 @@ dev_dependencies:
   build_test: ^2.2.2
   build_web_compilers: ^4.0.9
   # The "flutter_lints" package belosasasw contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
+  # encourage good coding practices. The linjkjt set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
