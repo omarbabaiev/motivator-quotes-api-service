@@ -14,10 +14,7 @@ Future<void> loadData() async {
 
 Response _getAllCategories(Request req) {
   try {
-    // Kategorilerin listesini al
     var categories = data["categories"] as List;
-
-    // Kategori id ve isimlerini çıkart
     var categoryDetails = categories.map((category) {
       return {
         "id": category["id"],
@@ -25,18 +22,17 @@ Response _getAllCategories(Request req) {
       };
     }).toList();
 
-    // JSON formatında döndür
     return Response.ok(
         jsonEncode({"categories": categoryDetails}),
         headers: {'Content-Type': 'application/json'}
     );
   } catch (e) {
-    // Hata durumunda yanıt döndür
     return Response.internalServerError(
         body: 'Failed to get categories: $e'
     );
   }
 }
+
 Response _getQuoteById(Request req, String quoteId) {
   try {
     var categories = data["categories"] as List?;
@@ -52,14 +48,12 @@ Response _getQuoteById(Request req, String quoteId) {
         var quotes = subcategory["quotes"] as List?;
         if (quotes == null) continue;
 
-        // Alıntıyı id'ye göre bul
         var quote = quotes.firstWhere(
                 (q) => q["id"].toString() == quoteId,
-            orElse: () => {"id": "", "text": "", "author": ""} // Boş bir Map döndür
+            orElse: () => {"id": "", "text": "", "author": ""}
         );
 
-        if (quote["id"] != "") { // Eğer boş değilse
-          // Alıntıyı, id'sini ve yazarını döndür
+        if (quote["id"] != "") {
           return Response.ok(
               jsonEncode({
                 "quote": {
@@ -81,6 +75,7 @@ Response _getQuoteById(Request req, String quoteId) {
     );
   }
 }
+
 Response _getAuthors(Request req) {
   try {
     var categories = data["categories"];
@@ -112,6 +107,7 @@ Response _getAuthors(Request req) {
     return Response.internalServerError(body: 'Failed to get authors: $e');
   }
 }
+
 Response _getQuotesByAuthor(Request req, String authorName) {
   try {
     var categories = data["categories"] as List?;
@@ -146,6 +142,7 @@ Response _getQuotesByAuthor(Request req, String authorName) {
     return Response.internalServerError(body: 'Failed to get quotes by author: $e');
   }
 }
+
 Response _getSubcategoriesByCategory(Request req, String categoryName) {
   try {
     var categories = data["categories"] as List;
@@ -178,16 +175,20 @@ Response _getSubcategoriesByCategory(Request req, String categoryName) {
   }
 }
 
+Response _home(Request req) {
+  return Response.ok('Welcome to the Quotes API! Use the available endpoints to get quotes, authors, and more.',
+      headers: {'Content-Type': 'text/plain'});
+}
+
 void main() async {
   await loadData();
   final router = Router()
+    ..get('/', _home)
     ..get('/categories', _getAllCategories)
     ..get('/quotes/<quoteId>', _getQuoteById)
     ..get('/quotes/author/<authorName>', _getQuotesByAuthor)
     ..get('/authors', _getAuthors)
     ..get('/subcategories/category/<categoryName>', _getSubcategoriesByCategory);
-
-
 
   final handler = const Pipeline()
       .addMiddleware(logRequests())
