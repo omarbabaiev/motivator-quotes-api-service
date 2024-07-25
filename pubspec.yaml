@@ -28,9 +28,8 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  shelf: any
-  shelf_router: any
-
+  shelf_router: ^1.1.4
+  shelf: ^1.4.1
 
 
 
