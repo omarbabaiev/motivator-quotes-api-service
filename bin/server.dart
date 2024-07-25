@@ -134,7 +134,7 @@ Response _getQuotesByAuthor(Request req, String authorName) {
     }
 
     if (quotesByAuthor.isEmpty) {
-      return Response.notFound('No quotes found foDFSFr the author: $authorName');
+      return Response.notFound('No quotes found fddsdoDFSFr the author: $authorName');
     }
 
     return Response.ok(jsonEncode({"quotes": quotesByAuthor}), headers: {'Content-Type': 'application/json'});
