@@ -1,1 +1,1 @@
-web: dart run bin/server.dart
+web: dart run bin/server.dartdsd
